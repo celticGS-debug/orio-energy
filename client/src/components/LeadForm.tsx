@@ -60,18 +60,8 @@ export default function LeadForm({ id, dark = false }: LeadFormProps) {
         body: new URLSearchParams(formData as unknown as Record<string, string>).toString(),
       });
     } catch (_) {
-      // Netlify Forms capture failed silently — WhatsApp still fires
+      // Netlify Forms capture failed silently
     }
-
-    // Open pre-filled WhatsApp message to Oliver in a new tab
-    const waText = encodeURIComponent(
-      `🔆 New solar survey lead from orioenergy.com\n\n` +
-      `👤 Name: ${name.trim()}\n` +
-      `📞 Phone: ${phone.trim()}\n` +
-      `📍 Postcode: ${postcode.trim().toUpperCase()}\n` +
-      `🕐 Submitted: ${timestamp}`
-    );
-    window.open(`https://wa.me/447538527253?text=${waText}`, "_blank", "noopener");
 
     setLoading(false);
     setSubmitted(true);
