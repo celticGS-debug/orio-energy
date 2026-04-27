@@ -25,6 +25,7 @@ import { useScrollAnimation, useCountUp } from "@/hooks/useScrollAnimation";
    Fonts: Fraunces (headings/italic emphasis), DM Sans (body)
    ============================================================ */
 
+const ORIO_LOGO = "/manus-storage/orio-logo_d6d25a6b.webp";
 const HERO_HOUSE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663472875712/4EKQP4C58FS82N3Bo9XcAi/orio-hero-house-YQsiGrXkMUQDaDByfBxrSp.webp";
 const OLIVER_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663472875712/4EKQP4C58FS82N3Bo9XcAi/orio-oliver-portrait-ZGzFCxqSwYonFiF6TM2ZXE.webp";
 const INSTALL_ROOF = "https://d2xsxph8kpxj0f.cloudfront.net/310519663472875712/4EKQP4C58FS82N3Bo9XcAi/orio-install-roof-7QjsHVfxQFCamhoKYKBRPh.webp";
@@ -187,10 +188,8 @@ export default function Home() {
       {/* ── SECTION 2: Sticky Nav ── */}
       <nav className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
         <div className="container flex items-center justify-between py-3">
-          <a href="/" className="flex items-center gap-1" aria-label="Orio Electrical Services">
-            <span className="text-2xl font-bold" style={{ fontFamily: "'Fraunces', serif", color: "#1B3A5C" }}>
-              orio<span style={{ color: "#00A79D" }}>.</span>
-            </span>
+          <a href="/" aria-label="Orio Electrical Services">
+            <img src={ORIO_LOGO} alt="Orio Electrical Services Ltd" className="h-10 w-auto" />
           </a>
           <div className="flex items-center gap-3">
             <a
@@ -647,9 +646,7 @@ export default function Home() {
         <div className="container">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
             <div>
-              <span className="text-2xl font-bold mb-3 block" style={{ fontFamily: "'Fraunces', serif", color: "#F8F5F0" }}>
-                orio<span style={{ color: "#00A79D" }}>.</span>
-              </span>
+              <img src={ORIO_LOGO} alt="Orio Electrical Services Ltd" className="h-12 w-auto mb-3" style={{ filter: "brightness(0) invert(1)" }} />
               <p className="text-sm" style={{ color: "rgba(248,245,240,0.5)" }}>
                 Orio Electrical Services Ltd<br />
                 Shoreham-by-Sea, West Sussex, BN43 5RE
