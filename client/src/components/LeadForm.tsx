@@ -52,6 +52,7 @@ export default function LeadForm({ id, dark = false }: LeadFormProps) {
     formData.append("timestamp", timestamp);
     formData.append("source", "orioenergy.com");
 
+    // Submit to Netlify Forms (backup record in dashboard)
     try {
       await fetch("/", {
         method: "POST",
@@ -59,8 +60,18 @@ export default function LeadForm({ id, dark = false }: LeadFormProps) {
         body: new URLSearchParams(formData as unknown as Record<string, string>).toString(),
       });
     } catch (_) {
-      // Submission still shows success — Netlify Forms is resilient
+      // Netlify Forms capture failed silently — WhatsApp still fires
     }
+
+    // Open pre-filled WhatsApp message to Oliver in a new tab
+    const waText = encodeURIComponent(
+      `🔆 New solar survey lead from orioenergy.com\n\n` +
+      `👤 Name: ${name.trim()}\n` +
+      `📞 Phone: ${phone.trim()}\n` +
+      `📍 Postcode: ${postcode.trim().toUpperCase()}\n` +
+      `🕐 Submitted: ${timestamp}`
+    );
+    window.open(`https://wa.me/447538527253?text=${waText}`, "_blank", "noopener");
 
     setLoading(false);
     setSubmitted(true);
