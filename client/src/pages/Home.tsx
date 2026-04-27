@@ -15,20 +15,62 @@ import {
   Mail,
   Lock,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import LeadForm from "@/components/LeadForm";
-import { useScrollAnimation, useCountUp } from "@/hooks/useScrollAnimation";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
+import { Marquee } from "@/components/ui/marquee";
+import { NumberTicker } from "@/components/ui/number-ticker";
+import { Timeline } from "@/components/ui/timeline";
 
 /* ============================================================
    Home — Orio Electrical Services Landing Page
    Design: Refined Craftsman
    Brand: #0F2340 navy dark, #1B3A5C navy, #00A79D teal, #F8F5F0 warm white
    Fonts: Fraunces (headings/italic emphasis), DM Sans (body)
+   21st.dev upgrades:
+   - AnimatedTestimonials (Aceternity) — reviews section
+   - Marquee (MagicUI) — social proof strip
+   - NumberTicker (MagicUI) — stats section
+   - Timeline (Aceternity) — how it works
+   - Animated text cycle — hero headline
+   - Aurora-style animated gradient — CTA section
    ============================================================ */
 
-const ORIO_LOGO = "/manus-storage/orio-logo_d6d25a6b.webp";
-const HERO_HOUSE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663472875712/4EKQP4C58FS82N3Bo9XcAi/orio-hero-house-YQsiGrXkMUQDaDByfBxrSp.webp";
-const OLIVER_PORTRAIT = "/manus-storage/oliver-lawrence_c1b124a6.webp";
-const INSTALL_ROOF = "https://d2xsxph8kpxj0f.cloudfront.net/310519663472875712/4EKQP4C58FS82N3Bo9XcAi/orio-install-roof-7QjsHVfxQFCamhoKYKBRPh.webp";
+// ── Fixed asset URLs (re-uploaded April 2026) ──────────────────
+const ORIO_LOGO = "/manus-storage/orio-logo_bf3b6ffb.webp";
+const HERO_HOUSE = "/manus-storage/orio-hero-house_e4169b9e.jpg";
+const OLIVER_PORTRAIT = "/manus-storage/oliver-lawrence_9db4217f.webp";
+const INSTALL_ROOF = "/manus-storage/orio-install-roof_a3c61720.jpg";
+const BATTERY_STORAGE = "/manus-storage/orio-battery-storage_a08014da.jpg";
+
+// ─── Animated text cycle (upgrade #5) ───────────────────────
+const PAIN_PHRASES = ["£200 a month", "£250 a month", "£300 a month"];
+
+function AnimatedPainPhrase() {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setIndex(i => (i + 1) % PAIN_PHRASES.length), 2800);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <span className="relative inline-block" style={{ minWidth: "10ch" }}>
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={index}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.35, ease: "easeInOut" }}
+          className="inline-block"
+          style={{ color: "#00A79D", fontStyle: "italic" }}
+        >
+          {PAIN_PHRASES[index]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
 
 // ─── Reusable fade-up wrapper ────────────────────────────────
 function FadeUp({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
@@ -93,27 +135,12 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   );
 }
 
-// ─── Animated stat counter ───────────────────────────────────
-function AnimatedStat({ value, suffix, label, start }: { value: number; suffix?: string; label: string; start: boolean }) {
-  const counted = useCountUp(value, 1600, start, 0);
-  return (
-    <div className="text-center p-6 rounded-2xl bg-white/10 border border-white/10">
-      <div className="text-4xl font-bold text-white mb-1 stat-number">
-        {counted}{suffix}
-      </div>
-      <div className="text-sm text-white/60" style={{ fontFamily: "'DM Sans', sans-serif" }}>{label}</div>
-    </div>
-  );
-}
-
 // ─── Main component ──────────────────────────────────────────
 export default function Home() {
   const [showMobileBar, setShowMobileBar] = useState(false);
   const [mobileBarVisible, setMobileBarVisible] = useState(false);
   const heroFormRef = useRef<HTMLDivElement>(null);
   const { ref: statsRef, visible: statsVisible } = useScrollAnimation(0.2);
-  const { ref: starsRef, visible: starsVisible } = useScrollAnimation(0.3);
-  const starsCount = useCountUp(5.0, 1200, starsVisible, 1);
 
   // Sticky mobile bottom bar logic
   useEffect(() => {
@@ -165,10 +192,129 @@ export default function Home() {
     },
   ];
 
+  // ── Marquee items ──────────────────────────────────────────
   const marqueeItems = [
-    "NICEIC Approved", "MCS Certified", "SolarEdge Partner", "No subcontractors",
-    "18 years experience", "Free survey", "West Sussex based", "0% VAT until March 2027",
-    "5.0 ★★★★★ Google", "31 verified reviews", "Oliver visits personally",
+    { icon: "✦", text: "NICEIC Approved" },
+    { icon: "✦", text: "MCS Certified" },
+    { icon: "✦", text: "SolarEdge Partner" },
+    { icon: "✦", text: "No subcontractors" },
+    { icon: "✦", text: "18 years experience" },
+    { icon: "✦", text: "Free survey" },
+    { icon: "✦", text: "West Sussex based" },
+    { icon: "✦", text: "0% VAT until March 2027" },
+    { icon: "★", text: "5.0 Google rating" },
+    { icon: "✦", text: "31 verified reviews" },
+    { icon: "✦", text: "Oliver visits personally" },
+  ];
+
+  // ── Testimonials data ──────────────────────────────────────
+  const testimonials = [
+    {
+      quote: "I was so nervous about being pressured into something expensive. Oliver was the complete opposite — calm, honest, and realistic. Three months on our bills are down by over £130 a month. Wish we had done it sooner.",
+      name: "Sarah T.",
+      designation: "Worthing, West Sussex",
+      src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=80",
+    },
+    {
+      quote: "Every other company sent a salesperson. Oliver came himself, looked at our roof, asked about our usage and gave us a straight answer. Bills dropped from £285 to under £90 most months.",
+      name: "Mark & Jenny H.",
+      designation: "Shoreham-by-Sea, West Sussex",
+      src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80",
+    },
+    {
+      quote: "We had been putting it off for two years. After Oliver's survey I finally understood exactly what we were getting. He handled all the paperwork. Could not have been easier.",
+      name: "David C.",
+      designation: "Burgess Hill, West Sussex",
+      src: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=80",
+    },
+  ];
+
+  // ── Timeline data (How It Works) ───────────────────────────
+  const timelineData = [
+    {
+      title: "Step 1",
+      content: (
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "#00A79D1A", color: "#00A79D" }}>
+              <HomeIcon className="w-5 h-5" />
+            </div>
+            <h3 className="font-bold text-lg" style={{ fontFamily: "'Fraunces', serif", color: "#1B3A5C" }}>
+              Free home survey
+            </h3>
+          </div>
+          <p className="text-gray-600 text-sm leading-relaxed">
+            Oliver visits personally. 45 minutes. He checks your roof orientation, shading, tile condition and energy usage. No pressure. No salesperson. Just honest advice.
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: "Step 2",
+      content: (
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "#00A79D1A", color: "#00A79D" }}>
+              <FileText className="w-5 h-5" />
+            </div>
+            <h3 className="font-bold text-lg" style={{ fontFamily: "'Fraunces', serif", color: "#1B3A5C" }}>
+              Written proposal in 48 hours
+            </h3>
+          </div>
+          <p className="text-gray-600 text-sm leading-relaxed">
+            A clear, itemised, fixed-price quote. No hidden costs. No upselling. You'll know exactly what you're getting and what it will cost before you commit to anything.
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: "Step 3",
+      content: (
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "#00A79D1A", color: "#00A79D" }}>
+              <Wrench className="w-5 h-5" />
+            </div>
+            <h3 className="font-bold text-lg" style={{ fontFamily: "'Fraunces', serif", color: "#1B3A5C" }}>
+              Professional installation
+            </h3>
+          </div>
+          <p className="text-gray-600 text-sm leading-relaxed">
+            Our own team — no subcontractors. Typically 1–2 days. Your home is left spotless. Oliver oversees every part of the installation himself.
+          </p>
+          <img
+            src={INSTALL_ROOF}
+            alt="Solar panel installation by Orio Electrical Services"
+            className="w-full h-40 object-cover rounded-xl mt-4"
+            loading="lazy"
+          />
+        </div>
+      ),
+    },
+    {
+      title: "Step 4",
+      content: (
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "#00A79D1A", color: "#00A79D" }}>
+              <BookOpen className="w-5 h-5" />
+            </div>
+            <h3 className="font-bold text-lg" style={{ fontFamily: "'Fraunces', serif", color: "#1B3A5C" }}>
+              Full handover
+            </h3>
+          </div>
+          <p className="text-gray-600 text-sm leading-relaxed">
+            App set up. SEG enrolled. MCS certificate issued. Oliver walks you through everything so you know exactly how to get the most from your system from day one.
+          </p>
+          <img
+            src={BATTERY_STORAGE}
+            alt="Battery storage system installed by Orio"
+            className="w-full h-40 object-cover rounded-xl mt-4"
+            loading="lazy"
+          />
+        </div>
+      ),
+    },
   ];
 
   return (
@@ -227,12 +373,14 @@ export default function Home() {
                 </span>
               </div>
 
-              {/* H1 */}
+              {/* H1 with animated pain phrase */}
               <h1
                 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-bold leading-tight mb-5"
                 style={{ fontFamily: "'Fraunces', serif", color: "#F8F5F0" }}
               >
-                Stop paying £200 a month for electricity you could be{" "}
+                Stop paying{" "}
+                <AnimatedPainPhrase />{" "}
+                for electricity you could be{" "}
                 <em style={{ color: "#00A79D", fontStyle: "italic" }}>generating yourself.</em>
               </h1>
 
@@ -291,36 +439,35 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── SECTION 4: Social Proof Strip ── */}
+      {/* ── SECTION 4: Social Proof Strip (Marquee upgrade) ── */}
       <section style={{ backgroundColor: "#162d4a" }} className="py-10 overflow-hidden">
-        <div ref={starsRef} className="text-center mb-6 px-4">
+        <div className="text-center mb-6 px-4">
           <div className="flex items-center justify-center gap-3 mb-2">
             <div className="flex gap-0.5">
               {[1,2,3,4,5].map(i => (
                 <Star key={i} className="w-6 h-6 fill-amber-400 text-amber-400" />
               ))}
             </div>
-            <span className="text-3xl font-bold text-white stat-number">{starsCount.toFixed(1)}</span>
+            <span className="text-3xl font-bold text-white" style={{ fontFamily: "'Fraunces', serif" }}>5.0</span>
           </div>
           <p className="text-sm" style={{ color: "rgba(248,245,240,0.65)" }}>
             31 verified Google reviews
           </p>
         </div>
-        {/* Marquee */}
-        <div className="relative overflow-hidden">
-          <div className="flex gap-0 marquee-track" style={{ width: "max-content" }}>
-            {[...marqueeItems, ...marqueeItems].map((item, i) => (
-              <span
-                key={i}
-                className="inline-flex items-center px-6 text-sm font-semibold whitespace-nowrap"
-                style={{ color: "rgba(248,245,240,0.7)" }}
-              >
-                <span className="mr-6" style={{ color: "#00A79D" }}>✦</span>
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
+
+        {/* MagicUI Marquee */}
+        <Marquee pauseOnHover className="[--duration:35s]">
+          {marqueeItems.map((item, i) => (
+            <span
+              key={i}
+              className="inline-flex items-center px-6 text-sm font-semibold whitespace-nowrap"
+              style={{ color: "rgba(248,245,240,0.75)" }}
+            >
+              <span className="mr-3 text-[#00A79D]">{item.icon}</span>
+              {item.text}
+            </span>
+          ))}
+        </Marquee>
       </section>
 
       {/* ── SECTION 5: Pain Section ── */}
@@ -374,12 +521,12 @@ export default function Home() {
             <div className="grid sm:grid-cols-2 gap-4 mb-8 max-w-2xl mx-auto">
               <div className="rounded-2xl p-6 text-center border-2 border-red-100 bg-red-50">
                 <p className="text-xs font-bold uppercase tracking-wider text-red-400 mb-2">Cost of doing nothing</p>
-                <p className="text-4xl font-bold text-red-500 stat-number mb-1">~£30,000</p>
+                <p className="text-4xl font-bold text-red-500 mb-1">~£30,000</p>
                 <p className="text-sm text-red-400">10 years at current rates</p>
               </div>
               <div className="rounded-2xl p-6 text-center border-2 border-emerald-100 bg-emerald-50">
                 <p className="text-xs font-bold uppercase tracking-wider text-emerald-600 mb-2">With solar & battery</p>
-                <p className="text-4xl font-bold text-emerald-600 stat-number mb-1">£14–18k</p>
+                <p className="text-4xl font-bold text-emerald-600 mb-1">£14–18k</p>
                 <p className="text-sm text-emerald-500">estimated saving over 10 years</p>
               </div>
             </div>
@@ -396,76 +543,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── SECTION 6: How It Works ── */}
-      <section style={{ backgroundColor: "#0F2340" }} className="py-16 md:py-20">
+      {/* ── SECTION 6: How It Works (Aceternity Timeline upgrade) ── */}
+      <section style={{ backgroundColor: "#F8F5F0" }} className="py-16 md:py-20 border-t border-gray-100">
         <div className="container">
-          <FadeUp className="text-center mb-12">
+          <FadeUp className="text-center mb-4">
             <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00A79D" }}>
               The process
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "'Fraunces', serif", color: "#F8F5F0" }}>
+            <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "'Fraunces', serif", color: "#1B3A5C" }}>
               Simple from start to finish.{" "}
               <em style={{ color: "#00A79D", fontStyle: "italic" }}>We handle everything.</em>
             </h2>
           </FadeUp>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                num: "01",
-                icon: <HomeIcon className="w-6 h-6" />,
-                title: "Free home survey",
-                body: "Oliver visits personally. 45 minutes. No pressure.",
-              },
-              {
-                num: "02",
-                icon: <FileText className="w-6 h-6" />,
-                title: "Written proposal in 48 hours",
-                body: "Itemised. Honest. No surprises.",
-              },
-              {
-                num: "03",
-                icon: <Wrench className="w-6 h-6" />,
-                title: "Professional installation",
-                body: "Our own team. 1–2 days. Home left spotless.",
-              },
-              {
-                num: "04",
-                icon: <BookOpen className="w-6 h-6" />,
-                title: "Full handover",
-                body: "App set up. SEG enrolled. Oliver walks you through everything.",
-              },
-            ].map((step, i) => (
-              <FadeUp key={i} delay={i * 120}>
-                <div className="relative">
-                  {/* Connector line (desktop) */}
-                  {i < 3 && (
-                    <div
-                      className="hidden lg:block absolute top-8 left-full w-full h-px z-0"
-                      style={{ backgroundColor: "rgba(0,167,157,0.2)", width: "calc(100% - 3rem)", left: "calc(50% + 1.5rem)" }}
-                    />
-                  )}
-                  <div className="relative z-10 bg-white/5 border border-white/10 rounded-2xl p-6 h-full hover:bg-white/10 transition-colors">
-                    <div className="flex items-center gap-3 mb-4">
-                      <span className="text-xs font-bold" style={{ color: "#00A79D" }}>{step.num}</span>
-                      <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "#00A79D20", color: "#00A79D" }}>
-                        {step.icon}
-                      </div>
-                    </div>
-                    <h3 className="font-bold text-white mb-2" style={{ fontFamily: "'Fraunces', serif" }}>
-                      {step.title}
-                    </h3>
-                    <p className="text-sm" style={{ color: "rgba(248,245,240,0.6)" }}>{step.body}</p>
-                  </div>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
+          <Timeline data={timelineData} />
         </div>
       </section>
 
-      {/* ── SECTION 7: Oliver Section ── */}
-      <section style={{ backgroundColor: "#0F2340" }} className="py-16 md:py-20 border-t border-white/5">
+      {/* ── SECTION 7: Oliver Section (NumberTicker stats upgrade) ── */}
+      <section style={{ backgroundColor: "#0F2340" }} className="py-16 md:py-20">
         <div className="container">
           <FadeUp className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-white" style={{ fontFamily: "'Fraunces', serif" }}>
@@ -520,22 +615,38 @@ export default function Home() {
             </FadeUp>
           </div>
 
-          {/* Stats grid */}
+          {/* Stats grid — NumberTicker upgrade */}
           <div ref={statsRef} className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <AnimatedStat value={18} suffix="+" label="Years as a qualified electrician" start={statsVisible} />
-            <AnimatedStat value={0} label="Jobs subcontracted — ever" start={statsVisible} />
             <div className="text-center p-6 rounded-2xl bg-white/10 border border-white/10">
-              <div className="text-4xl font-bold text-white mb-1 stat-number" style={{ fontFamily: "'Fraunces', serif" }}>
-                <MapPin className="w-8 h-8 text-[#00A79D] mx-auto mb-1" />
+              <div className="text-4xl font-bold text-white mb-1" style={{ fontFamily: "'Fraunces', serif" }}>
+                {statsVisible ? <NumberTicker value={18} className="text-white" /> : "0"}
+                <span>+</span>
+              </div>
+              <div className="text-sm text-white/60">Years as a qualified electrician</div>
+            </div>
+            <div className="text-center p-6 rounded-2xl bg-white/10 border border-white/10">
+              <div className="text-4xl font-bold text-white mb-1" style={{ fontFamily: "'Fraunces', serif" }}>
+                {statsVisible ? <NumberTicker value={0} className="text-white" /> : "0"}
+              </div>
+              <div className="text-sm text-white/60">Jobs subcontracted — ever</div>
+            </div>
+            <div className="text-center p-6 rounded-2xl bg-white/10 border border-white/10">
+              <div className="text-4xl font-bold text-white mb-1">
+                <MapPin className="w-8 h-8 text-[#00A79D] mx-auto" />
               </div>
               <div className="text-sm text-white/60">Based in Shoreham, your local installer</div>
             </div>
-            <AnimatedStat value={1} label="Person responsible for your installation" start={statsVisible} />
+            <div className="text-center p-6 rounded-2xl bg-white/10 border border-white/10">
+              <div className="text-4xl font-bold text-white mb-1" style={{ fontFamily: "'Fraunces', serif" }}>
+                {statsVisible ? <NumberTicker value={1} className="text-white" /> : "0"}
+              </div>
+              <div className="text-sm text-white/60">Person responsible for your installation</div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── SECTION 8: Reviews ── */}
+      {/* ── SECTION 8: Reviews (AnimatedTestimonials upgrade) ── */}
       <section style={{ backgroundColor: "#F8F5F0" }} className="py-16 md:py-20">
         <div className="container">
           <FadeUp className="text-center mb-4">
@@ -553,41 +664,8 @@ export default function Home() {
             </div>
           </FadeUp>
 
-          <div className="grid md:grid-cols-3 gap-6 mt-10">
-            {[
-              {
-                name: "Sarah T.",
-                location: "Worthing",
-                text: "I was so nervous about being pressured into something expensive. Oliver was the complete opposite — calm, honest, and realistic. Three months on our bills are down by over £130 a month. Wish we had done it sooner.",
-              },
-              {
-                name: "Mark and Jenny H.",
-                location: "Shoreham-by-Sea",
-                text: "Every other company sent a salesperson. Oliver came himself, looked at our roof, asked about our usage and gave us a straight answer. Bills dropped from £285 to under £90 most months.",
-              },
-              {
-                name: "David C.",
-                location: "Burgess Hill",
-                text: "We had been putting it off for two years. After Oliver's survey I finally understood exactly what we were getting. He handled all the paperwork. Could not have been easier.",
-              },
-            ].map((review, i) => (
-              <FadeUp key={i} delay={i * 100}>
-                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 h-full flex flex-col">
-                  <Stars />
-                  <blockquote className="flex-1 mt-4 text-gray-700 text-sm leading-relaxed italic">
-                    "{review.text}"
-                  </blockquote>
-                  <div className="mt-4 pt-4 border-t border-gray-100">
-                    <p className="font-bold text-sm" style={{ color: "#1B3A5C" }}>{review.name}</p>
-                    <p className="text-xs text-gray-400 flex items-center gap-1">
-                      <MapPin className="w-3 h-3" />
-                      {review.location}
-                    </p>
-                  </div>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
+          {/* Aceternity AnimatedTestimonials */}
+          <AnimatedTestimonials testimonials={testimonials} autoplay />
         </div>
       </section>
 
@@ -610,13 +688,29 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── SECTION 10: Final CTA ── */}
+      {/* ── SECTION 10: Final CTA (Aurora gradient upgrade) ── */}
       <section
         id="final-cta"
-        className="py-16 md:py-20"
+        className="py-16 md:py-20 relative overflow-hidden"
         style={{ background: "linear-gradient(135deg, #0F2340 0%, #1B3A5C 100%)" }}
       >
-        <div className="container max-w-2xl mx-auto text-center">
+        {/* Aurora animated blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            className="absolute -top-32 -left-32 w-96 h-96 rounded-full opacity-20"
+            style={{ background: "radial-gradient(circle, #00A79D 0%, transparent 70%)" }}
+            animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute -bottom-32 -right-32 w-80 h-80 rounded-full opacity-15"
+            style={{ background: "radial-gradient(circle, #00A79D 0%, transparent 70%)" }}
+            animate={{ x: [0, -30, 0], y: [0, -20, 0] }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+          />
+        </div>
+
+        <div className="container max-w-2xl mx-auto text-center relative z-10">
           <FadeUp>
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4" style={{ fontFamily: "'Fraunces', serif" }}>
               Ready to{" "}

@@ -182,16 +182,32 @@
     transform: translateY(0);
   }
 
-  /* Marquee */
-  @keyframes marquee {
+  /* Legacy marquee (kept for compat) */
+  @keyframes marquee-legacy {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
   }
   .marquee-track {
-    animation: marquee 28s linear infinite;
+    animation: marquee-legacy 28s linear infinite;
   }
   .marquee-track:hover {
     animation-play-state: paused;
+  }
+
+  /* MagicUI Marquee component keyframes */
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-100% - var(--gap))); }
+  }
+  @keyframes marquee-vertical {
+    from { transform: translateY(0); }
+    to { transform: translateY(calc(-100% - var(--gap))); }
+  }
+  .animate-marquee {
+    animation: marquee var(--duration, 40s) linear infinite;
+  }
+  .animate-marquee-vertical {
+    animation: marquee-vertical var(--duration, 40s) linear infinite;
   }
 
   /* Sticky bottom bar slide-up */
