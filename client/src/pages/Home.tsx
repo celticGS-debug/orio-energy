@@ -516,6 +516,21 @@ export default function Home() {
             ))}
           </div>
 
+          {/* Heading hook */}
+          <FadeUp className="text-center mb-8">
+            <h3
+              className="text-2xl sm:text-3xl font-bold mb-3"
+              style={{ fontFamily: "'Fraunces', serif", color: "#1B3A5C" }}
+            >
+              <em style={{ color: "#00A79D", fontStyle: "italic" }}>
+                "The price of sunshine has never gone up."
+              </em>
+            </h3>
+            <p className="text-base text-gray-600 max-w-xl mx-auto">
+              Solar locks your energy cost at zero for 25 years. Whatever happens to the grid.
+            </p>
+          </FadeUp>
+
           {/* Cost comparison */}
           <FadeUp>
             <div className="grid sm:grid-cols-2 gap-4 mb-8 max-w-2xl mx-auto">
