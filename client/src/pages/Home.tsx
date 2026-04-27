@@ -384,6 +384,17 @@ export default function Home() {
                 <em style={{ color: "#00A79D", fontStyle: "italic" }}>generating yourself.</em>
               </h1>
 
+              {/* Sunshine hook */}
+              <p
+                className="text-xl sm:text-2xl font-bold mb-2"
+                style={{ fontFamily: "'Fraunces', serif", color: "#00A79D", fontStyle: "italic" }}
+              >
+                "The price of sunshine has never gone up."
+              </p>
+              <p className="text-sm mb-5" style={{ color: "rgba(248,245,240,0.65)" }}>
+                Solar locks your energy cost at zero for 25 years. Whatever happens to the grid.
+              </p>
+
               {/* Subheadline */}
               <p className="text-base leading-relaxed mb-6" style={{ color: "rgba(248,245,240,0.75)" }}>
                 Oliver Lawrence — NICEIC and MCS certified electrician with 18 years experience — designs and installs solar, battery storage and EV charging across West Sussex. One team. No salespeople. No subcontractors.
@@ -515,21 +526,6 @@ export default function Home() {
               </FadeUp>
             ))}
           </div>
-
-          {/* Heading hook */}
-          <FadeUp className="text-center mb-8">
-            <h3
-              className="text-2xl sm:text-3xl font-bold mb-3"
-              style={{ fontFamily: "'Fraunces', serif", color: "#1B3A5C" }}
-            >
-              <em style={{ color: "#00A79D", fontStyle: "italic" }}>
-                "The price of sunshine has never gone up."
-              </em>
-            </h3>
-            <p className="text-base text-gray-600 max-w-xl mx-auto">
-              Solar locks your energy cost at zero for 25 years. Whatever happens to the grid.
-            </p>
-          </FadeUp>
 
           {/* Cost comparison */}
           <FadeUp>
