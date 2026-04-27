@@ -412,8 +412,8 @@ export default function Home() {
                 >
                   "The price of sunshine has never gone up."
                 </p>
-                <p className="text-sm" style={{ color: "rgba(248,245,240,0.65)" }}>
-                  Solar locks your energy cost at zero for 25 years. Whatever happens to the grid.
+                <p className="text-sm" style={{ color: "rgba(248,245,240,0.65)", fontFamily: "'Outfit', sans-serif", textAlign: 'center' }}>
+                  Solar locks your energy cost at zero for years.
                 </p>
               </div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
