@@ -37,12 +37,12 @@ import { Timeline } from "@/components/ui/timeline";
    - Aurora-style animated gradient — CTA section
    ============================================================ */
 
-// ── Fixed asset URLs (re-uploaded April 2026) ──────────────────
-const ORIO_LOGO = "/manus-storage/orio-logo_bf3b6ffb.webp";
-const HERO_HOUSE = "/manus-storage/orio-hero-house_e4169b9e.jpg";
-const OLIVER_PORTRAIT = "/manus-storage/oliver-lawrence_9db4217f.webp";
-const INSTALL_ROOF = "/manus-storage/orio-install-roof_a3c61720.jpg";
-const BATTERY_STORAGE = "/manus-storage/orio-battery-storage_a08014da.jpg";
+// ── Asset URLs — served from /public/images/ (works on Netlify) ──
+const ORIO_LOGO = "/images/orio-logo.webp";
+const HERO_HOUSE = "/images/orio-hero-house.jpg";
+const OLIVER_PORTRAIT = "/images/oliver-lawrence.webp";
+const INSTALL_ROOF = "/images/orio-install-roof.jpg";
+const BATTERY_STORAGE = "/images/orio-battery-storage.jpg";
 
 // ─── Animated text cycle (upgrade #5) ───────────────────────
 const PAIN_PHRASES = ["£200 a month", "£250 a month", "£300 a month"];
