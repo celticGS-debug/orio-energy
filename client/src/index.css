@@ -10,7 +10,7 @@
    - Teal (#00A79D) = action colour, used sparingly
    - Warm white (#F8F5F0) = breathing room sections
    - Fraunces serif italic = emotional emphasis in headlines
-   - DM Sans = clean, readable body copy
+   - Outfit = clean, geometric body copy
    ============================================================ */
 
 @theme inline {
@@ -75,7 +75,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Outfit', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -125,7 +125,7 @@
   .btn-teal {
     background-color: #00A79D;
     color: white;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-weight: 700;
     border-radius: 9999px;
     transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
