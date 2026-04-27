@@ -27,7 +27,7 @@ import { useScrollAnimation, useCountUp } from "@/hooks/useScrollAnimation";
 
 const ORIO_LOGO = "/manus-storage/orio-logo_d6d25a6b.webp";
 const HERO_HOUSE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663472875712/4EKQP4C58FS82N3Bo9XcAi/orio-hero-house-YQsiGrXkMUQDaDByfBxrSp.webp";
-const OLIVER_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663472875712/4EKQP4C58FS82N3Bo9XcAi/orio-oliver-portrait-ZGzFCxqSwYonFiF6TM2ZXE.webp";
+const OLIVER_PORTRAIT = "/manus-storage/oliver-lawrence_c1b124a6.webp";
 const INSTALL_ROOF = "https://d2xsxph8kpxj0f.cloudfront.net/310519663472875712/4EKQP4C58FS82N3Bo9XcAi/orio-install-roof-7QjsHVfxQFCamhoKYKBRPh.webp";
 
 // ─── Reusable fade-up wrapper ────────────────────────────────
