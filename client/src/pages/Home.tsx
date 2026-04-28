@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import LeadForm from "@/components/LeadForm";
+import { trackContact } from "@/lib/pixel";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
 import { Marquee } from "@/components/ui/marquee";
@@ -340,6 +341,7 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <a
               href="tel:07538527253"
+              onClick={trackContact}
               className="hidden sm:flex items-center gap-2 text-sm font-semibold transition-colors hover:text-[#00A79D]"
               style={{ color: "#1B3A5C" }}
             >
@@ -761,7 +763,7 @@ export default function Home() {
             <div>
               <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#00A79D" }}>Contact</p>
               <div className="space-y-2">
-                <a href="tel:07538527253" className="flex items-center gap-2 text-sm hover:text-[#00A79D] transition-colors" style={{ color: "rgba(248,245,240,0.65)" }}>
+                <a href="tel:07538527253" onClick={trackContact} className="flex items-center gap-2 text-sm hover:text-[#00A79D] transition-colors" style={{ color: "rgba(248,245,240,0.65)" }}>
                   <Phone className="w-3.5 h-3.5" />
                   07538 527253
                 </a>
@@ -806,6 +808,7 @@ export default function Home() {
           <div className="flex items-center gap-3 px-4 py-3">
             <a
               href="tel:07538527253"
+              onClick={trackContact}
               className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border font-semibold text-sm transition-colors"
               style={{ borderColor: "#1B3A5C", color: "#1B3A5C" }}
             >

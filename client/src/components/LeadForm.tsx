@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CheckCircle, Lock } from "lucide-react";
+import { trackLead } from "@/lib/pixel";
 
 /* ============================================================
    LeadForm — Orio Electrical Services
@@ -62,6 +63,9 @@ export default function LeadForm({ id, dark = false }: LeadFormProps) {
     } catch (_) {
       // Netlify Forms capture failed silently
     }
+
+    // Fire Meta Pixel Lead event with advanced matching
+    await trackLead(name.trim(), phone.trim());
 
     setLoading(false);
     setSubmitted(true);
