@@ -248,10 +248,9 @@ export default function Home() {
             Oliver visits personally. 45 minutes. He checks your roof orientation, shading, tile condition and energy usage. No pressure. No salesperson. Just honest advice.
           </p>
           <img
-            src="/images/oliver-lawrence.webp"
-            alt="Oliver Lawrence conducting a home solar survey"
-            className="w-full h-48 object-cover object-top rounded-xl"
-            loading="lazy"
+            src="https://d2xsxph8kpxj0f.cloudfront.net/310519663472875712/4EKQP4C58FS82N3Bo9XcAi/survey-home-visit-CGybeAYwUsxQwu9PLy5LkK.webp"
+            alt="Solar surveyor visiting a home"
+            className="w-full h-48 object-cover object-center rounded-xl"
           />
         </div>
       ),
@@ -607,13 +606,14 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-12">
             {/* Oliver photo */}
             <FadeUp>
-              <div className="relative">
-                <div className="rounded-2xl overflow-hidden shadow-2xl">
-                  <img
-                    src={OLIVER_PORTRAIT}
-                    alt="Oliver Lawrence — Founder and Lead Electrician, Orio Electrical Services"
+              <div className="relative">                <div className="rounded-2xl overflow-hidden shadow-2xl">
+                  <video
+                    src="/videos/oliver-waving.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
                     className="w-full h-80 sm:h-96 object-cover object-top"
-                    loading="lazy"
                   />
                 </div>
                 <div className="absolute -bottom-4 -right-4 bg-[#00A79D] text-white rounded-xl p-4 shadow-xl hidden sm:block">
