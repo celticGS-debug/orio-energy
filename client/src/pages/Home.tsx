@@ -19,7 +19,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import LeadForm from "@/components/LeadForm";
 import { trackContact } from "@/lib/pixel";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
+import { GoogleReviews } from "@/components/GoogleReviews";
 import { Marquee } from "@/components/ui/marquee";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { Timeline } from "@/components/ui/timeline";
@@ -678,8 +678,10 @@ export default function Home() {
             </div>
           </FadeUp>
 
-          {/* Aceternity AnimatedTestimonials */}
-          <AnimatedTestimonials testimonials={testimonials} autoplay />
+          {/* Google Reviews card carousel */}
+          <FadeUp>
+            <GoogleReviews />
+          </FadeUp>
         </div>
       </section>
 
