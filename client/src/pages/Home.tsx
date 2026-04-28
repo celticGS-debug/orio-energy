@@ -244,9 +244,15 @@ export default function Home() {
               Free home survey
             </h3>
           </div>
-          <p className="text-gray-600 text-sm leading-relaxed">
+          <p className="text-gray-600 text-sm leading-relaxed mb-4">
             Oliver visits personally. 45 minutes. He checks your roof orientation, shading, tile condition and energy usage. No pressure. No salesperson. Just honest advice.
           </p>
+          <img
+            src="/images/oliver-lawrence.webp"
+            alt="Oliver Lawrence conducting a home solar survey"
+            className="w-full h-48 object-cover object-top rounded-xl"
+            loading="lazy"
+          />
         </div>
       ),
     },
@@ -262,9 +268,15 @@ export default function Home() {
               Written proposal in 48 hours
             </h3>
           </div>
-          <p className="text-gray-600 text-sm leading-relaxed">
+          <p className="text-gray-600 text-sm leading-relaxed mb-4">
             A clear, itemised, fixed-price quote. No hidden costs. No upselling. You'll know exactly what you're getting and what it will cost before you commit to anything.
           </p>
+          <img
+            src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80"
+            alt="Couple reviewing solar proposal at dining table"
+            className="w-full h-48 object-cover rounded-xl"
+            loading="lazy"
+          />
         </div>
       ),
     },
@@ -388,7 +400,7 @@ export default function Home() {
 
               {/* Subheadline */}
               <p className="text-base leading-relaxed mb-6" style={{ color: "rgba(248,245,240,0.75)" }}>
-                Oliver Lawrence — NICEIC and MCS certified electrician with 18 years experience — designs and installs solar, battery storage and EV charging across West Sussex. One team. No salespeople. No subcontractors.
+                Oliver Lawrence -  NICEIC and MCS certified electrician with 18 years experience, designs and installs solar, battery storage and EV charging across West Sussex. One team. No salespeople. No subcontractors.
               </p>
 
               {/* Trust pills */}
@@ -464,9 +476,7 @@ export default function Home() {
             </div>
             <span className="text-3xl font-bold text-white" style={{ fontFamily: "'Fraunces', serif" }}>5.0</span>
           </div>
-          <p className="text-sm" style={{ color: "rgba(248,245,240,0.65)" }}>
-            31 verified Google reviews
-          </p>
+
         </div>
 
         {/* MagicUI Marquee */}
@@ -517,14 +527,26 @@ export default function Home() {
               },
             ].map((card, i) => (
               <FadeUp key={i} delay={i * 100}>
-                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 h-full">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style={{ backgroundColor: "#00A79D1A", color: "#00A79D" }}>
-                    {card.icon}
+                <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 h-full">
+                  <img
+                    src={[
+                      "https://d2xsxph8kpxj0f.cloudfront.net/310519663472875712/4EKQP4C58FS82N3Bo9XcAi/pain-switch-tariff-MzjFPZHyBaofekPGKokidE.webp",
+                      "https://d2xsxph8kpxj0f.cloudfront.net/310519663472875712/4EKQP4C58FS82N3Bo9XcAi/pain-turn-off-lights-URaRfxRhzfF2tnt84bipEM.webp",
+                      "https://d2xsxph8kpxj0f.cloudfront.net/310519663472875712/4EKQP4C58FS82N3Bo9XcAi/pain-solar-confusion-9d9e8rxUGcCTKCP6ccN4iL.webp",
+                    ][i]}
+                    alt={card.title}
+                    className="w-full h-44 object-cover"
+                    loading="lazy"
+                  />
+                  <div className="p-6">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style={{ backgroundColor: "#00A79D1A", color: "#00A79D" }}>
+                      {card.icon}
+                    </div>
+                    <h3 className="font-bold text-lg mb-2" style={{ fontFamily: "'Fraunces', serif", color: "#1B3A5C" }}>
+                      {card.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">{card.body}</p>
                   </div>
-                  <h3 className="font-bold text-lg mb-2" style={{ fontFamily: "'Fraunces', serif", color: "#1B3A5C" }}>
-                    {card.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">{card.body}</p>
                 </div>
               </FadeUp>
             ))}
@@ -630,27 +652,27 @@ export default function Home() {
           </div>
 
           {/* Stats grid — NumberTicker upgrade */}
-          <div ref={statsRef} className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="text-center p-6 rounded-2xl bg-white/10 border border-white/10">
+          <div ref={statsRef} className="flex flex-wrap justify-center gap-4">
+            <div className="text-center p-6 rounded-2xl bg-white/10 border border-white/10 min-w-[140px]">
               <div className="text-4xl font-bold text-white mb-1" style={{ fontFamily: "'Fraunces', serif" }}>
                 {statsVisible ? <NumberTicker value={18} className="text-white" /> : "0"}
                 <span>+</span>
               </div>
               <div className="text-sm text-white/60">Years as a qualified electrician</div>
             </div>
-            <div className="text-center p-6 rounded-2xl bg-white/10 border border-white/10">
+            <div className="text-center p-6 rounded-2xl bg-white/10 border border-white/10 min-w-[140px]">
               <div className="text-4xl font-bold text-white mb-1" style={{ fontFamily: "'Fraunces', serif" }}>
                 {statsVisible ? <NumberTicker value={0} className="text-white" /> : "0"}
               </div>
               <div className="text-sm text-white/60">Jobs subcontracted — ever</div>
             </div>
-            <div className="text-center p-6 rounded-2xl bg-white/10 border border-white/10">
+            <div className="text-center p-6 rounded-2xl bg-white/10 border border-white/10 min-w-[140px]">
               <div className="text-4xl font-bold text-white mb-1">
                 <MapPin className="w-8 h-8 text-[#00A79D] mx-auto" />
               </div>
               <div className="text-sm text-white/60">Based in Shoreham, your local installer</div>
             </div>
-            <div className="text-center p-6 rounded-2xl bg-white/10 border border-white/10">
+            <div className="text-center p-6 rounded-2xl bg-white/10 border border-white/10 min-w-[140px]">
               <div className="text-4xl font-bold text-white mb-1" style={{ fontFamily: "'Fraunces', serif" }}>
                 {statsVisible ? <NumberTicker value={1} className="text-white" /> : "0"}
               </div>
@@ -665,7 +687,7 @@ export default function Home() {
         <div className="container">
           <FadeUp className="text-center mb-4">
             <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00A79D" }}>
-              What West Sussex homeowners say
+              Google Verified Reviews
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold mb-3" style={{ fontFamily: "'Fraunces', serif", color: "#1B3A5C" }}>
               Real people.{" "}
@@ -674,7 +696,6 @@ export default function Home() {
             <div className="flex items-center justify-center gap-3 mt-4">
               <Stars />
               <span className="font-bold text-[#1B3A5C]">5.0</span>
-              <span className="text-gray-500 text-sm">— Based on 31 verified Google reviews</span>
             </div>
           </FadeUp>
 
@@ -743,9 +764,7 @@ export default function Home() {
           <FadeUp delay={200}>
             <div className="flex items-center justify-center gap-2 mt-4">
               <Lock className="w-3.5 h-3.5 text-white/40" />
-              <p className="text-xs text-white/40">
-                No spam. No cold calls. Your details go to Oliver only. He will call you back within 2 hours.
-              </p>
+
             </div>
           </FadeUp>
         </div>
@@ -754,49 +773,33 @@ export default function Home() {
       {/* ── SECTION 11: Footer ── */}
       <footer style={{ backgroundColor: "#0A1929" }} className="py-10 border-t border-white/5">
         <div className="container">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-            <div>
-              <img src={ORIO_LOGO} alt="Orio Electrical Services Ltd" className="h-12 w-auto mb-3" style={{ filter: "brightness(0) invert(1)" }} />
-              <p className="text-sm" style={{ color: "rgba(248,245,240,0.5)" }}>
-                Orio Electrical Services Ltd<br />
-                Shoreham-by-Sea, West Sussex, BN43 5RE
-              </p>
+          <div className="flex flex-wrap items-center justify-between gap-6 mb-8">
+            <img src={ORIO_LOGO} alt="Orio Electrical Services Ltd" className="h-10 w-auto" style={{ filter: "brightness(0) invert(1)" }} />
+            <div className="flex items-center gap-6">
+              <a href="tel:07538527253" onClick={trackContact} className="flex items-center gap-2 text-sm hover:text-[#00A79D] transition-colors" style={{ color: "rgba(248,245,240,0.65)" }}>
+                <Phone className="w-3.5 h-3.5" />
+                07538 527253
+              </a>
+              <a href="mailto:hello@orio.me" className="flex items-center gap-2 text-sm hover:text-[#00A79D] transition-colors" style={{ color: "rgba(248,245,240,0.65)" }}>
+                <Mail className="w-3.5 h-3.5" />
+                hello@orio.me
+              </a>
+              <a href="https://orio.me" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-[#00A79D] transition-colors" style={{ color: "rgba(248,245,240,0.65)" }}>
+                orio.me
+              </a>
             </div>
-            <div>
-              <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#00A79D" }}>Contact</p>
-              <div className="space-y-2">
-                <a href="tel:07538527253" onClick={trackContact} className="flex items-center gap-2 text-sm hover:text-[#00A79D] transition-colors" style={{ color: "rgba(248,245,240,0.65)" }}>
-                  <Phone className="w-3.5 h-3.5" />
-                  07538 527253
-                </a>
-                <a href="mailto:hello@orio.me" className="flex items-center gap-2 text-sm hover:text-[#00A79D] transition-colors" style={{ color: "rgba(248,245,240,0.65)" }}>
-                  <Mail className="w-3.5 h-3.5" />
-                  hello@orio.me
-                </a>
-                <a href="https://orio.me" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm hover:text-[#00A79D] transition-colors" style={{ color: "rgba(248,245,240,0.65)" }}>
-                  orio.me
-                </a>
-              </div>
-            </div>
-            <div>
-              <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#00A79D" }}>Accreditations</p>
-              <div className="flex flex-wrap gap-2">
-                {["NICEIC Approved", "MCS Certified", "SolarEdge Partner"].map(b => (
-                  <span key={b} className="text-xs px-2 py-1 rounded-full border" style={{ borderColor: "rgba(0,167,157,0.25)", color: "rgba(248,245,240,0.5)" }}>
-                    {b}
-                  </span>
-                ))}
-              </div>
+            <div className="flex flex-wrap gap-2">
+              {["NICEIC Approved", "MCS Certified", "SolarEdge Partner"].map(b => (
+                <span key={b} className="text-xs px-2 py-1 rounded-full border" style={{ borderColor: "rgba(0,167,157,0.25)", color: "rgba(248,245,240,0.5)" }}>
+                  {b}
+                </span>
+              ))}
             </div>
           </div>
           <div className="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-xs" style={{ color: "rgba(248,245,240,0.35)" }}>
               © 2026 Orio Electrical Services Ltd. All rights reserved.
             </p>
-            <div className="flex gap-4">
-              <a href="#" className="text-xs hover:text-[#00A79D] transition-colors" style={{ color: "rgba(248,245,240,0.35)" }}>Privacy Policy</a>
-              <a href="#" className="text-xs hover:text-[#00A79D] transition-colors" style={{ color: "rgba(248,245,240,0.35)" }}>Terms</a>
-            </div>
           </div>
         </div>
       </footer>
