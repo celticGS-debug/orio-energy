@@ -139,28 +139,18 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 // ─── Main component ──────────────────────────────────────────
 export default function Home() {
   const [showMobileBar, setShowMobileBar] = useState(false);
-  const [mobileBarVisible, setMobileBarVisible] = useState(false);
   const heroFormRef = useRef<HTMLDivElement>(null);
   const { ref: statsRef, visible: statsVisible } = useScrollAnimation(0.2);
 
-  // Sticky mobile bottom bar logic
+  // Sticky mobile bottom bar — show after scrolling 200px
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        const isHidden = !entry.isIntersecting;
-        if (isHidden && !mobileBarVisible) {
-          setShowMobileBar(true);
-          setTimeout(() => setMobileBarVisible(true), 50);
-        } else if (!isHidden) {
-          setMobileBarVisible(false);
-          setTimeout(() => setShowMobileBar(false), 350);
-        }
-      },
-      { threshold: 0.1 }
-    );
-    if (heroFormRef.current) observer.observe(heroFormRef.current);
-    return () => observer.disconnect();
-  }, [mobileBarVisible]);
+    const handleScroll = () => {
+      setShowMobileBar(window.scrollY > 200);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // check on mount
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   function scrollToForm() {
     document.getElementById("final-form")?.scrollIntoView({ behavior: "smooth" });
@@ -808,7 +798,7 @@ export default function Home() {
       {/* ── SECTION 12: Sticky Mobile Bottom Bar ── */}
       {showMobileBar && (
         <div
-          className={`fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white border-t border-gray-100 shadow-2xl ${mobileBarVisible ? "slide-up-enter" : ""}`}
+          className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white border-t border-gray-100 shadow-2xl slide-up-enter"
           style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
         >
           <div className="flex items-center gap-3 px-4 py-3">
