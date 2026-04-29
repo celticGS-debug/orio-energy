@@ -48,7 +48,9 @@ export async function trackLead(firstName: string, phone: string): Promise<void>
   // Advanced matching — passed as the third argument to fbq('track', ...)
   window.fbq("track", "Lead", {
     content_name: "Free Solar Survey",
-    content_category: "Solar",
+    content_category: "Solar Installation",
+    value: 0,
+    currency: "GBP",
   }, {
     eventID: `lead_${Date.now()}`,
     // Advanced matching fields (hashed)
