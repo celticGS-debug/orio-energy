@@ -17,7 +17,14 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import LeadForm from "@/components/LeadForm";
-import { trackContact } from "@/lib/pixel";
+import {
+  trackContact,
+  trackViewContent,
+  trackInitiateCheckout,
+  trackScrollDepth,
+  trackVideoEngagement,
+  trackFAQEngagement,
+} from "@/lib/pixel";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { GoogleReviews } from "@/components/GoogleReviews";
 import { Marquee } from "@/components/ui/marquee";
@@ -111,13 +118,13 @@ function TrustPill({ label, dark = false }: { label: string; dark?: boolean }) {
   );
 }
 
-// ─── FAQ item ────────────────────────────────────────────────
-function FaqItem({ q, a }: { q: string; a: string }) {
+// ─// ─── FAQ item ────────────────────────────────────────────
+function FaqItem({ q, a, onOpen }: { q: string; a: string; onOpen?: () => void }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="border-b border-gray-100 last:border-0">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => { const next = !open; setOpen(next); if (next && onOpen) onOpen(); }}
         className="w-full flex items-center justify-between py-5 text-left gap-4 group"
         aria-expanded={open}
       >
@@ -140,6 +147,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 export default function Home() {
   const [showMobileBar, setShowMobileBar] = useState(false);
   const heroFormRef = useRef<HTMLDivElement>(null);
+  const oliverSectionRef = useRef<HTMLElement>(null);
   const { ref: statsRef, visible: statsVisible } = useScrollAnimation(0.2);
 
   // Sticky mobile bottom bar — show after scrolling 200px
@@ -148,11 +156,48 @@ export default function Home() {
       setShowMobileBar(window.scrollY > 200);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // check on mount
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  function scrollToForm() {
+  // ── Scroll depth tracking (25 / 50 / 75 / 90) ────────────────
+  useEffect(() => {
+    const fired = new Set<number>();
+    const milestones: Array<25 | 50 | 75 | 90> = [25, 50, 75, 90];
+    const handleDepth = () => {
+      const scrolled = window.scrollY + window.innerHeight;
+      const total = document.documentElement.scrollHeight;
+      const pct = Math.round((scrolled / total) * 100);
+      for (const m of milestones) {
+        if (pct >= m && !fired.has(m)) {
+          fired.add(m);
+          trackScrollDepth(m);
+        }
+      }
+    };
+    window.addEventListener("scroll", handleDepth, { passive: true });
+    return () => window.removeEventListener("scroll", handleDepth);
+  }, []);
+
+  // ── ViewContent: Oliver section enters viewport ───────────────
+  useEffect(() => {
+    let fired = false;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !fired) {
+          fired = true;
+          trackViewContent("Oliver Lawrence — Who You're Dealing With");
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    if (oliverSectionRef.current) observer.observe(oliverSectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  function scrollToForm(trigger = "CTA Button") {
+    trackInitiateCheckout(trigger);
     document.getElementById("final-form")?.scrollIntoView({ behavior: "smooth" });
   }
 
@@ -327,7 +372,7 @@ export default function Home() {
         <p className="text-sm font-medium" style={{ color: "#F8F5F0" }}>
           <span className="shimmer-text font-bold">0% VAT</span>
           <span style={{ color: "#F8F5F0" }}> on solar & battery storage — available until March 2027. </span>
-          <button onClick={scrollToForm} className="underline font-semibold hover:no-underline" style={{ color: "#00A79D" }}>
+          <button onClick={() => scrollToForm("Announcement Bar")} className="underline font-semibold hover:no-underline" style={{ color: "#00A79D" }}>
             Book your free survey now.
           </button>
         </p>
@@ -342,7 +387,7 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <a
               href="tel:07538527253"
-              onClick={trackContact}
+              onClick={() => trackContact("phone")}
               className="hidden sm:flex items-center gap-2 text-sm font-semibold transition-colors hover:text-[#00A79D]"
               style={{ color: "#1B3A5C" }}
             >
@@ -350,7 +395,7 @@ export default function Home() {
               07538 527253
             </a>
             <button
-              onClick={scrollToForm}
+              onClick={() => scrollToForm("Nav Bar")}
               className="btn-teal px-5 py-2.5 text-sm font-bold"
             >
               Book Free Survey
@@ -559,7 +604,7 @@ export default function Home() {
 
           <FadeUp className="text-center">
             <button
-              onClick={scrollToForm}
+              onClick={() => scrollToForm("Pain Section CTA")}
               className="btn-teal px-8 py-4 text-base font-bold w-full sm:w-auto"
             >
               Get My Free Survey — No Obligation
@@ -585,7 +630,7 @@ export default function Home() {
       </section>
 
       {/* ── SECTION 7: Oliver Section (NumberTicker stats upgrade) ── */}
-      <section style={{ backgroundColor: "#0F2340" }} className="py-16 md:py-20">
+      <section ref={oliverSectionRef} style={{ backgroundColor: "#0F2340" }} className="py-16 md:py-20">
         <div className="container">
           <FadeUp className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-white" style={{ fontFamily: "'Fraunces', serif" }}>
@@ -603,6 +648,7 @@ export default function Home() {
                     loop
                     muted
                     playsInline
+                    onPlay={trackVideoEngagement}
                     className="w-full h-80 sm:h-96 object-cover object-top"
                   />
                 </div>
@@ -709,7 +755,7 @@ export default function Home() {
           <FadeUp>
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-6">
               {faqs.map((faq, i) => (
-                <FaqItem key={i} q={faq.q} a={faq.a} />
+                <FaqItem key={i} q={faq.q} a={faq.a} onOpen={() => trackFAQEngagement(faq.q)} />
               ))}
             </div>
           </FadeUp>
@@ -767,11 +813,11 @@ export default function Home() {
           <div className="flex flex-wrap items-center justify-between gap-6 mb-8">
             <img src={ORIO_LOGO} alt="Orio Electrical Services Ltd" className="h-10 w-auto" style={{ filter: "brightness(0) invert(1)" }} />
             <div className="flex items-center gap-6">
-              <a href="tel:07538527253" onClick={trackContact} className="flex items-center gap-2 text-sm hover:text-[#00A79D] transition-colors" style={{ color: "rgba(248,245,240,0.65)" }}>
+              <a href="tel:07538527253" onClick={() => trackContact("phone")} className="flex items-center gap-2 text-sm hover:text-[#00A79D] transition-colors" style={{ color: "rgba(248,245,240,0.65)" }}>
                 <Phone className="w-3.5 h-3.5" />
                 07538 527253
               </a>
-              <a href="mailto:hello@orio.me" className="flex items-center gap-2 text-sm hover:text-[#00A79D] transition-colors" style={{ color: "rgba(248,245,240,0.65)" }}>
+              <a href="mailto:hello@orio.me" onClick={() => trackContact("email")} className="flex items-center gap-2 text-sm hover:text-[#00A79D] transition-colors" style={{ color: "rgba(248,245,240,0.65)" }}>
                 <Mail className="w-3.5 h-3.5" />
                 hello@orio.me
               </a>
@@ -804,7 +850,7 @@ export default function Home() {
           <div className="flex items-center gap-3 px-4 py-3">
             <a
               href="tel:07538527253"
-              onClick={trackContact}
+              onClick={() => trackContact("phone")}
               className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border font-semibold text-sm transition-colors"
               style={{ borderColor: "#1B3A5C", color: "#1B3A5C" }}
             >
@@ -812,7 +858,7 @@ export default function Home() {
               Call Oliver
             </a>
             <button
-              onClick={scrollToForm}
+              onClick={() => scrollToForm("Sticky Mobile Bar")}
               className="flex-1 btn-teal py-3 text-sm font-bold"
             >
               Book Free Survey

@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { CheckCircle, Lock } from "lucide-react";
-import { trackLead } from "@/lib/pixel";
+import { trackLead, trackInitiateCheckout } from "@/lib/pixel";
 
 /* ============================================================
    LeadForm — Orio Electrical Services
@@ -28,6 +28,7 @@ export default function LeadForm({ id, dark = false }: LeadFormProps) {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ name?: string; phone?: string; postcode?: string }>({});
+  const formStartFired = useRef(false);
 
   function validate() {
     const e: typeof errors = {};
@@ -135,7 +136,13 @@ export default function LeadForm({ id, dark = false }: LeadFormProps) {
             type="text"
             name="name"
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={e => {
+              setName(e.target.value);
+              if (!formStartFired.current && e.target.value.length === 1) {
+                formStartFired.current = true;
+                trackInitiateCheckout("Form First Keystroke");
+              }
+            }}
             placeholder="e.g. Sarah"
             className={inputBase}
             autoComplete="given-name"

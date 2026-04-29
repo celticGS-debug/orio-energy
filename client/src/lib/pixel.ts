@@ -2,10 +2,18 @@
    Meta Pixel Utility — Orio Electrical Services
    Pixel ID: 529343246650504
 
-   Events fired:
-   - PageView   → automatically on every page load (via index.html base code)
-   - Lead       → on form submit with advanced matching (fn, ph)
-   - Contact    → on phone number click (nav + footer)
+   Standard events fired:
+   - PageView              → automatically on every page load (index.html base code)
+   - Lead                  → form submit with advanced matching (fn, ph)
+   - Contact               → phone or email link click
+   - ViewContent           → scroll past 50% OR Oliver section in viewport
+   - InitiateCheckout      → CTA button click (intent to book) OR first form keystroke
+
+   Custom events fired (trackCustom):
+   - ScrollDepth           → 25 / 50 / 75 / 90 scroll milestones
+   - FAQEngagement         → any FAQ accordion opened (question text included)
+   - VideoEngagement       → Oliver waving video plays
+   - ReviewsEngagement     → Google Reviews carousel interacted with
    ============================================================ */
 
 declare global {
@@ -13,6 +21,11 @@ declare global {
     fbq: (...args: unknown[]) => void;
     _fbq: unknown;
   }
+}
+
+/** Guard — returns false if fbq is not available (SSR / ad-blocker). */
+function canTrack(): boolean {
+  return typeof window !== "undefined" && typeof window.fbq === "function";
 }
 
 /** Hash a string with SHA-256 and return the hex digest.
@@ -34,18 +47,13 @@ function normalisePhone(raw: string): string {
   return digits;
 }
 
-/** Fire the Lead event with advanced matching (first name + phone).
- *  Called immediately after successful form submission. */
+// ─── Standard Events ─────────────────────────────────────────
+
+/** Lead — form submit with advanced matching (first name + phone hashed). */
 export async function trackLead(firstName: string, phone: string): Promise<void> {
-  if (typeof window === "undefined" || !window.fbq) return;
-
+  if (!canTrack()) return;
   const normPhone = normalisePhone(phone);
-  const [hashedFn, hashedPh] = await Promise.all([
-    sha256(firstName),
-    sha256(normPhone),
-  ]);
-
-  // Advanced matching — passed as the third argument to fbq('track', ...)
+  const [hashedFn, hashedPh] = await Promise.all([sha256(firstName), sha256(normPhone)]);
   window.fbq("track", "Lead", {
     content_name: "Free Solar Survey",
     content_category: "Solar Installation",
@@ -53,16 +61,79 @@ export async function trackLead(firstName: string, phone: string): Promise<void>
     currency: "GBP",
   }, {
     eventID: `lead_${Date.now()}`,
-    // Advanced matching fields (hashed)
     fn: hashedFn,
     ph: hashedPh,
   });
 }
 
-/** Fire the Contact event when the phone number is clicked. */
-export function trackContact(): void {
-  if (typeof window === "undefined" || !window.fbq) return;
+/** Contact — phone or email link clicked.
+ *  @param method  "phone" | "email" — distinguishes the channel. */
+export function trackContact(method: "phone" | "email" = "phone"): void {
+  if (!canTrack()) return;
   window.fbq("track", "Contact", {
-    content_name: "Phone Call",
+    content_name: method === "phone" ? "Phone Call" : "Email",
+    content_category: "Solar Installation",
+  });
+}
+
+/** ViewContent — fired when a meaningful section enters the viewport.
+ *  @param contentName  Human-readable label for the section viewed. */
+export function trackViewContent(contentName: string): void {
+  if (!canTrack()) return;
+  window.fbq("track", "ViewContent", {
+    content_name: contentName,
+    content_category: "Solar Installation",
+    content_type: "section",
+  });
+}
+
+/** InitiateCheckout — fired when a visitor signals intent to book.
+ *  Used for CTA button clicks and first form keystroke. */
+export function trackInitiateCheckout(trigger: string): void {
+  if (!canTrack()) return;
+  window.fbq("track", "InitiateCheckout", {
+    content_name: "Free Solar Survey",
+    content_category: "Solar Installation",
+    trigger,
+    value: 0,
+    currency: "GBP",
+  });
+}
+
+// ─── Custom Events ────────────────────────────────────────────
+
+/** ScrollDepth — fires once per milestone (25 / 50 / 75 / 90). */
+export function trackScrollDepth(percent: 25 | 50 | 75 | 90): void {
+  if (!canTrack()) return;
+  window.fbq("trackCustom", "ScrollDepth", {
+    percent,
+    page: "orioenergy.com",
+  });
+}
+
+/** FAQEngagement — visitor opened an FAQ accordion item. */
+export function trackFAQEngagement(question: string): void {
+  if (!canTrack()) return;
+  window.fbq("trackCustom", "FAQEngagement", {
+    question,
+    content_category: "Solar Installation",
+  });
+}
+
+/** VideoEngagement — Oliver waving video started playing. */
+export function trackVideoEngagement(): void {
+  if (!canTrack()) return;
+  window.fbq("trackCustom", "VideoEngagement", {
+    video_title: "Oliver Lawrence Introduction",
+    content_category: "Solar Installation",
+  });
+}
+
+/** ReviewsEngagement — visitor interacted with the Google Reviews carousel. */
+export function trackReviewsEngagement(): void {
+  if (!canTrack()) return;
+  window.fbq("trackCustom", "ReviewsEngagement", {
+    content_name: "Google Reviews Carousel",
+    content_category: "Social Proof",
   });
 }

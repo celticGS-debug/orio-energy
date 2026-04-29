@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { trackReviewsEngagement } from "@/lib/pixel";
 
 /* ============================================================
    GoogleReviews — Orio Electrical Services
@@ -172,6 +173,7 @@ export function GoogleReviews() {
     if (!scrollRef.current) return;
     const amount = 300;
     scrollRef.current.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
+    trackReviewsEngagement();
   }
 
   return (
