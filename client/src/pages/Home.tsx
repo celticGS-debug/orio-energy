@@ -199,7 +199,7 @@ export default function Home() {
     { icon: "✦", text: "MCS Certified" },
     { icon: "✦", text: "SolarEdge Partner" },
     { icon: "✦", text: "No subcontractors" },
-    { icon: "✦", text: "18 years experience" },
+    { icon: "✦", text: "20+ Years In Construction" },
     { icon: "✦", text: "Free survey" },
     { icon: "✦", text: "West Sussex based" },
     { icon: "✦", text: "0% VAT until March 2027" },
