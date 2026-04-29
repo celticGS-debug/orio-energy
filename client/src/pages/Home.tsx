@@ -292,7 +292,7 @@ export default function Home() {
             </h3>
           </div>
           <p className="text-gray-600 text-sm leading-relaxed">
-            Our own team — no subcontractors. Typically 1–2 days. Your home is left spotless. Oliver oversees every part of the installation himself.
+            Our own team - no subcontractors. Typically 1-2 days. Your home is left spotless. Oliver oversees every part of the installation himself.
           </p>
           <img
             src={INSTALL_ROOF}
@@ -399,7 +399,7 @@ export default function Home() {
 
               {/* Subheadline */}
               <p className="text-base leading-relaxed mb-6" style={{ color: "rgba(248,245,240,0.75)" }}>
-                Oliver Lawrence -  NICEIC and MCS certified electrician with 18 years experience, designs and installs solar, battery storage and EV charging across West Sussex. One team. No salespeople. No subcontractors.
+                Oliver Lawrence - 20+ years in the construction industry, 10 years as a qualified electrician. Designs and installs solar, battery storage and EV charging across West Sussex. One team. No salespeople. No subcontractors.
               </p>
 
               {/* Trust pills */}
@@ -454,7 +454,7 @@ export default function Home() {
                         Oliver Lawrence
                       </p>
                       <p className="text-xs text-gray-500">Founder, Orio Electrical Services</p>
-                      <p className="text-xs text-gray-400">18 years qualified electrician</p>
+                      <p className="text-xs text-gray-400">20+ years construction, 10 years qualified electrician</p>
                     </div>
                   </div>
                 </div>
@@ -630,7 +630,7 @@ export default function Home() {
                   Oliver Lawrence
                 </p>
                 <p className="text-sm mb-6" style={{ color: "#00A79D" }}>
-                  Founder and Lead Electrician — Orio Electrical Services
+                  Founder and Lead Electrician - Orio Electrical Services
                 </p>
                 <blockquote
                   className="text-xl leading-relaxed mb-8 italic"
@@ -655,16 +655,17 @@ export default function Home() {
           <div ref={statsRef} className="flex flex-wrap justify-center gap-4">
             <div className="text-center p-6 rounded-2xl bg-white/10 border border-white/10 min-w-[140px]">
               <div className="text-4xl font-bold text-white mb-1" style={{ fontFamily: "'Fraunces', serif" }}>
-                {statsVisible ? <NumberTicker value={18} className="text-white" /> : "0"}
+                {statsVisible ? <NumberTicker value={20} className="text-white" /> : "0"}
                 <span>+</span>
               </div>
-              <div className="text-sm text-white/60">Years as a qualified electrician</div>
+              <div className="text-sm text-white/60">Years in the construction industry</div>
             </div>
             <div className="text-center p-6 rounded-2xl bg-white/10 border border-white/10 min-w-[140px]">
               <div className="text-4xl font-bold text-white mb-1" style={{ fontFamily: "'Fraunces', serif" }}>
-                {statsVisible ? <NumberTicker value={0} className="text-white" /> : "0"}
+                {statsVisible ? <NumberTicker value={10} className="text-white" /> : "0"}
+                <span>+</span>
               </div>
-              <div className="text-sm text-white/60">Jobs subcontracted — ever</div>
+              <div className="text-sm text-white/60">Years as a qualified electrician</div>
             </div>
             <div className="text-center p-6 rounded-2xl bg-white/10 border border-white/10 min-w-[140px]">
               <div className="text-4xl font-bold text-white mb-1">
